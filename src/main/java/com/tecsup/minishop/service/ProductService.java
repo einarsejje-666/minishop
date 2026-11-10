@@ -16,12 +16,7 @@ public class ProductService {
     }
 
     public Product save(Product product) {
-        if (product.getPrice() <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor a cero");
-        }
-        if (product.getStock() < 0) {
-            throw new IllegalArgumentException("El stock no puede ser negativo");
-        }
+        validarProducto(product);
         return productRepository.save(product);
     }
 
@@ -32,5 +27,14 @@ public class ProductService {
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+    }
+
+    private void validarProducto(Product product) {
+        if (product.getPrice() <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a cero");
+        }
+        if (product.getStock() < 0) {
+            throw new IllegalArgumentException("El stock no puede ser negativo");
+        }
     }
 }
